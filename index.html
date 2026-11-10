@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Section Stock Take</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: #f5f5f5;
+      padding: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      color: #333;
+    }
+    
+    .container {
+      width: 100%;
+      max-width: 500px;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 20px 16px;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      font-weight: 600;
+      text-align: center;
+      margin-bottom: 24px;
+      color: #1a1a1a;
+      letter-spacing: -0.5px;
+    }
+    
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin: 20px 0 12px 0;
+      color: #555;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 6px;
+    }
+    
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    
+    .form-group {
+      flex: 1;
+      min-width: 100px;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    label {
+      font-size: 0.85rem;
+      font-weight: 500;
+      margin-bottom: 6px;
+      color: #666;
+    }
+    
+    select, input {
+      width: 100%;
+      padding: 12px 12px;
+      border: 1px solid #e0e0e0;
+      border-radius: 10px;
+      font-size: 1rem;
+      background-color: #fafafa;
+      appearance: none;
+      -webkit-appearance: none;
+      color: #333;
+      transition: all 0.2s;
+    }
+    
+    select {
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23999' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 12px center;
+      background-size: 16px;
+      padding-right: 36px;
+    }
+    
+    input[type="number"] {
+      appearance: textfield;
+      -moz-appearance: textfield;
+    }
+    
+    input[type="number"]::-webkit-outer-spin-button,
+    input[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    
+    .cs-dim-container {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+    }
+    
+    .cs-dim-container select {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .cs-dim-x {
+      font-weight: bold;
+      font-size: 1.2rem;
+      color: #888;
+      flex-shrink: 0;
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 16px;
+      background-color: #007AFF;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-top: 24px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      letter-spacing: 0.5px;
+    }
+    
+    .submit-btn:active {
+      background-color: #0056CC;
+    }
+    
+    .submit-btn:disabled {
+      background-color: #99C2FF;
+      cursor: not-allowed;
+    }
+    
+    #submitMessage {
+      text-align: center;
+      margin-top: 12px;
+      font-size: 0.95rem;
+      font-weight: 500;
+      min-height: 24px;
+      color: #34C759;
+    }
+    
+    .error {
+      color: #FF3B30;
+    }
+
+    #hiddenFrame {
+      display: none;
+    }
+    
+    @media (max-width: 350px) {
+      .form-row {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .cs-dim-container {
+        gap: 4px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>📋 Section Stock Take</h1>
+    
+    <!-- 
+      Form submits to the GAS Web App URL.
+      target="hiddenFrame" sends the response into a hidden iframe to avoid page navigation.
+    -->
+    <form id="stockTakeForm" 
+          action="https://script.google.com/macros/s/AKfycbwJzyrbPNctNm_NPhzAhUelXeuwLaezfBxD0a4dC97_KrCZZ50VCmLaGFeOzytkTUGW/exec" 
+          method="POST" 
+          target="hiddenFrame">
+      
+      <!-- Tell GAS this is a submit action -->
+      <input type="hidden" name="action" value="submit">
+      
+      <!-- Row 1: Shape, Grade, Surface -->
+      <div class="section-title">Basic Information</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="shape">Shape</label>
+          <select id="shape" name="shape" required>
+            <option value="">Please select</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="grade">Grade</label>
+          <select id="grade" name="grade" required>
+            <option value="">Please select</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="surface">Surface</label>
+          <select id="surface" name="surface" required>
+            <option value="">Please select</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Row 2: C/S Dim (two dropdowns), Thickness -->
+      <div class="section-title">Dimensions</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>C/S Dim</label>
+          <div class="cs-dim-container">
+            <select id="csDim1" name="csDim1" required>
+              <option value="">Select</option>
+            </select>
+            <span class="cs-dim-x">×</span>
+            <select id="csDim2" name="csDim2" required>
+              <option value="">Select</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="thickness">Thickness</label>
+          <select id="thickness" name="thickness" required>
+            <option value="">Please select</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Row 3: Stock Take Quantity and Location -->
+      <div class="section-title">Stock Take Result</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="quantity">Stock Take Quantity</label>
+          <input type="number" id="quantity" name="quantity" placeholder="Enter number" min="0" step="any" required>
+        </div>
+        <div class="form-group">
+          <label for="remarks">Location</label>
+          <input type="text" id="remarks" name="remarks" placeholder="Enter location">
+        </div>
+      </div>
+      
+      <button type="submit" class="submit-btn" id="submitBtn">Submit</button>
+      <div id="submitMessage"></div>
+    </form>
+    
+    <!-- hidden iframe - receives the form response, prevents page navigation -->
+    <iframe name="hiddenFrame" id="hiddenFrame" onload="onFormSubmitComplete()"></iframe>
+  </div>
+
+  <script>
+    // ⚠️ Replace with your GAS Web App URL
+    const GAS_URL = 'https://script.google.com/macros/s/AKfycbwJzyrbPNctNm_NPhzAhUelXeuwLaezfBxD0a4dC97_KrCZZ50VCmLaGFeOzytkTUGW/exec';
+    
+    let isSubmitting = false;
+    
+    // Load dropdown options via fetch on page load (GET request, no CORS issue)
+    window.addEventListener('DOMContentLoaded', async () => {
+      try {
+        const response = await fetch(GAS_URL + '?action=getOptions');
+        const options = await response.json();
+        populateDropdowns(options);
+      } catch (error) {
+        console.error('Failed to load options:', error);
+        showMessage('Failed to load options, please refresh and try again', true);
+      }
+    });
+    
+    function populateDropdowns(options) {
+      const shapeSelect = document.getElementById('shape');
+      options.shapes.forEach(opt => shapeSelect.add(new Option(opt, opt)));
+      
+      const gradeSelect = document.getElementById('grade');
+      options.grades.forEach(opt => gradeSelect.add(new Option(opt, opt)));
+      
+      const surfaceSelect = document.getElementById('surface');
+      options.surfaces.forEach(opt => surfaceSelect.add(new Option(opt, opt)));
+      
+      const csDim1Select = document.getElementById('csDim1');
+      const csDim2Select = document.getElementById('csDim2');
+      options.csDims.forEach(opt => {
+        csDim1Select.add(new Option(opt, opt));
+        csDim2Select.add(new Option(opt, opt));
+      });
+      
+      const thicknessSelect = document.getElementById('thickness');
+      options.thicknesses.forEach(opt => thicknessSelect.add(new Option(opt, opt)));
+    }
+    
+    // Form submit handler
+    document.getElementById('stockTakeForm').addEventListener('submit', function(e) {
+      // Validate that both C/S Dim dropdowns are selected
+      const csDim1 = document.getElementById('csDim1').value;
+      const csDim2 = document.getElementById('csDim2').value;
+      
+      if (!csDim1 || !csDim2) {
+        e.preventDefault();
+        showMessage('Please select both C/S Dim values', true);
+        return;
+      }
+      
+      // Mark as submitting
+      isSubmitting = true;
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitting...';
+      showMessage('Submitting...', false);
+    });
+    
+    // Triggered when the hidden iframe finishes loading (i.e. form submission complete)
+    function onFormSubmitComplete() {
+      // Only handle when a submission is in progress
+      if (!isSubmitting) return;
+      
+      isSubmitting = false;
+      
+      const submitBtn = document.getElementById('submitBtn');
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit';
+      
+      showMessage('✅ Stock take record saved successfully!', false);
+      
+      // Reset the form
+      document.getElementById('stockTakeForm').reset();
+    }
+    
+    function showMessage(msg, isError) {
+      const msgDiv = document.getElementById('submitMessage');
+      msgDiv.textContent = msg;
+      msgDiv.className = isError ? 'error' : '';
+    }
+  </script>
+</body>
+</html>
